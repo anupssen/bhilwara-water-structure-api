@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: bhilwara-water-structure-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.6"
+      # Frontend origin(s) allowed by CORS, comma-separated.
+      # Example: https://bhilwara-water-structure-website.onrender.com
+      - key: CORS_ORIGINS
+        sync: false
