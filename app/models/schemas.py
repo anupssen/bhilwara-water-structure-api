@@ -21,6 +21,11 @@ class RecommendationRequest(BaseModel):
         min_length=1,
         description="Subdistrict/tehsil name.",
     )
+    previous_recommendation: Optional[str] = Field(
+        None,
+        description="Structure shown for the previous request; the mock "
+        "recommendation will not repeat it.",
+    )
 
 
 class RecommendationAlternative(BaseModel):
@@ -33,6 +38,29 @@ class SubdistrictInfo(BaseModel):
     latitude: float
     longitude: float
     area_km2: float
+
+
+class WaterBodyInfo(BaseModel):
+    """An existing water body and the structure point matched to it."""
+
+    id: int
+    area_m2: float
+    sr_no: int
+    work_name: Optional[str] = None
+    activity: Optional[str] = None
+    village: Optional[str] = None
+    gram_panchayat: Optional[str] = None
+    panchayat: Optional[str] = None
+    ar: Optional[float] = None
+    length: Optional[float] = None
+    depth: Optional[float] = None
+    match_type: str = Field(
+        ...,
+        description='"inside": the point lies on the water body; '
+        '"nearest": no point on it, the nearest one was used.',
+    )
+    points_on_body: int
+    point_distance_m: float
 
 
 class RecommendationResponse(BaseModel):
@@ -48,3 +76,4 @@ class RecommendationResponse(BaseModel):
     area_km2: Optional[str] = None
     reasons: List[str] = []
     alternatives: List[RecommendationAlternative] = []
+    water_body: Optional[WaterBodyInfo] = None

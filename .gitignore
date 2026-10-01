@@ -5,6 +5,7 @@ __pycache__/
 
 # Virtual environment
 .venv/
+.venv-win/
 
 # Test / cache files
 .pytest_cache/

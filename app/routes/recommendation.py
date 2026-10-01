@@ -4,6 +4,7 @@ from ..models.schemas import RecommendationRequest, RecommendationResponse
 from ..services.elevation_service import get_elevation
 from ..services.recommendation_service import compute_recommendation
 from ..services.subdistrict_service import find_subdistrict
+from ..services.water_body_service import find_water_body
 from ..utils.validation import validate_subdistrict
 
 router = APIRouter()
@@ -31,13 +32,18 @@ def get_recommendation(payload: RecommendationRequest):
     )
     elevation, elevation_message = get_elevation(latitude, longitude)
 
-    # Mock structure recommendation keyed on the best-known subdistrict name.
+    # Random mock structure, never the same as the one shown last time.
     effective_subdistrict = detected_subdistrict or subdistrict
-    result = compute_recommendation(latitude, longitude, effective_subdistrict)
+    result = compute_recommendation(
+        latitude, longitude, effective_subdistrict, payload.previous_recommendation
+    )
 
     result["subdistrict"] = detected_subdistrict
     result["subdistrict_message"] = subdistrict_message
     result["elevation"] = elevation
     result["elevation_message"] = elevation_message
+    # Set when the location is on an existing water body; the frontend then
+    # shows its details instead of a recommendation.
+    result["water_body"] = find_water_body(latitude, longitude)
 
     return result

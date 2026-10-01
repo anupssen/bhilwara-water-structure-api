@@ -2,10 +2,10 @@ import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
-from .routes import health, recommendation, subdistricts
+from .routes import health, recommendation, subdistricts, water_bodies
 
-# Local dev frontend origins, used when CORS_ORIGINS is not set.
 DEFAULT_CORS_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -30,8 +30,6 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Allow the local Vite dev server and, on Render, the deployed frontend
-# origin (set via the CORS_ORIGINS environment variable) to call this API.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins(),
@@ -39,7 +37,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# The water-bodies GeoJSON is ~3.4 MB raw and ~0.65 MB gzipped.
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 app.include_router(health.router)
 app.include_router(recommendation.router)
 app.include_router(subdistricts.router)
+app.include_router(water_bodies.router)
