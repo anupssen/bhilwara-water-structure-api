@@ -2,6 +2,11 @@ services:
   - type: web
     name: bhilwara-water-structure-api
     env: python
+    # Free instance (512 MB RAM; the API peaks at ~200 MB). It sleeps after
+    # 15 idle minutes, so the first request after that takes ~30-60 s.
+    plan: free
+    # Closest Render region to Rajasthan.
+    region: singapore
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
