@@ -1,0 +1,16 @@
+# Not needed by the deployed API (keeps the Vercel function bundle small).
+.venv/
+.venv-win/
+.idea/
+.pytest_cache/
+__pycache__/
+tests/
+scripts/
+render.yaml
+
+# Source/intermediate data used only by scripts/; the API reads
+# data/elevation, data/subdistricts and MaxWaterExtent_with_points.*
+data/MaxWaterExtent.zip
+data/MaxWaterExtent/MaxWaterExtent.tif
+data/MaxWaterExtent/MaxWaterExtent_polygons.*
+data/MaxWaterExtent/WaterStructurePoints.*
