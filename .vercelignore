@@ -9,7 +9,9 @@ scripts/
 render.yaml
 
 # Source/intermediate data used only by scripts/; the API reads
-# data/elevation, data/subdistricts and MaxWaterExtent_with_points.*
+# DEM_30m.npy/.json, data/subdistricts and MaxWaterExtent_with_points.*
+requirements-dev.txt
+data/elevation/DEM_30m.tif
 data/MaxWaterExtent.zip
 data/MaxWaterExtent/MaxWaterExtent.tif
 data/MaxWaterExtent/MaxWaterExtent_polygons.*

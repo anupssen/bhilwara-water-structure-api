@@ -1,0 +1,7 @@
+# Runtime deps plus what scripts/ and tests/ need. Not installed on Vercel:
+# rasterio's Linux wheels need the system libexpat, which the Vercel Python
+# runtime lacks, so the API reads the DEM from scripts/export_dem_array.py's
+# NumPy export instead.
+-r requirements.txt
+rasterio==1.5.2
+pytest==9.1.1
