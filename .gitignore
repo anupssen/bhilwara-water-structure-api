@@ -17,3 +17,4 @@ htmlcov/
 
 # macOS
 .DS_Store
+.vercel
